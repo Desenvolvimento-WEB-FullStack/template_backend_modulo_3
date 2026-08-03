@@ -1,8 +1,7 @@
 import { DataSource } from "typeorm";
-
 import { UsuarioEntity } from "../entidades/Usuario.js";
 
-const dbPort = Number(process.env.DB_PORT || 5432);
+const dbPort = Number(process.env.DB_PORT);
 const loggingEnabled = process.env.DB_LOGGING === "true";
 
 export const AppDataSource = new DataSource({
