@@ -6,14 +6,10 @@ import jwt from "jsonwebtoken"; // lib que vai gerar o token do usuario
 import { AppDataSource } from "../config/database_postgres.js";
 import { UsuarioEntity } from "../entidades/Usuario.js";
 
-import {
-  CREATED_SUCCESS_REQUEST,
-  CONFLICT_ERROR,
-  BAD_REQUEST_ERROR,
-} from "../constants/server.js";
+import { CREATED_STATUS, CONFLICT_STATUS } from "../constants/server.js";
 import { ROLES } from "../constants/roles.js";
 
-import { autorizarHandler } from "../middlewares/autorizarHandler.js";
+import { autorizarHandler } from "../middlewares/auth/autorizarHandler.js";
 
 const authRoutes = new Router();
 
@@ -30,7 +26,7 @@ authRoutes.post(
     });
 
     if (usuarioEncontrado) {
-      response.status(CONFLICT_ERROR).send({ error: "O email já existe" });
+      response.status(CONFLICT_STATUS).send({ error: "O email já existe" });
     } else {
       const senhaHash = await bcrypt.hash(dados.senha, 12);
 
@@ -45,7 +41,7 @@ authRoutes.post(
       await usuarioRepository.save(dadosUsuario);
 
       response
-        .status(CREATED_SUCCESS_REQUEST)
+        .status(CREATED_STATUS)
         .send({ nome: dados.nome, role: dados.role });
     }
   },

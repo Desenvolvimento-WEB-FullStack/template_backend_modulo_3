@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { DataSource } from "typeorm";
 import { UsuarioEntity } from "../entidades/Usuario.js";
 
